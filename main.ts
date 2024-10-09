@@ -1,8 +1,14 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
+import { CSSRuleParserStateMachine } from "./tokenizer.ts";
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
-}
+const rule = `
+    .example {
+    color: red;
+    font-size: 16px;
+    margin: 10px 5px;
+  }
+`;
+
+const parser = new CSSRuleParserStateMachine();
+
+console.log(parser.parse(rule));
+console.log(parser.getParseResult());
