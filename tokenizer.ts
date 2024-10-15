@@ -22,7 +22,10 @@ export class CSSRuleParserStateMachine {
   // set state accordingly
   parse(input: string): boolean {
     for (const char of input) {
-      // x
+      this.transition(char);
+      if (this.state === State.Reject) {
+        return false;
+      }
     }
 
     return this.state === State.Accept;
@@ -32,6 +35,12 @@ export class CSSRuleParserStateMachine {
   // and given character
   private transition(char: string): void {
     switch (this.state) {
+      case State.Start:
+        if (char.trim() !== "") {
+          this.state = State.Selector;
+          this.currentToken += char;
+        }
+        break;
       default:
         this.state = State.Reject;
     }
